@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="
+        http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.20.xsd">
+
+    <!--DEVELOPMENT-->
+    <include file="db/changelog/h2/changelog-init-h2-v1.xml" context="h2"/>
+    <include file="db/changelog/h2/changelog-init-h2-users-v1.xml" context="h2"/>
+
+
+    <!--PRODUCTION-->
+    <include file="db/changelog/oracle/changelog-init-oracle-v1.xml" context="oracle"/>
+    <include file="db/changelog/oracle/changelog-init-oracle-users-v1.xml" context="oracle"/>
+
+
+
+
+
+</databaseChangeLog>

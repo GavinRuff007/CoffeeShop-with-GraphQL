@@ -1,0 +1,79 @@
+# -------------------- Queries --------------------
+type Query {
+    customers: [Customer]
+    products: [Product]
+    orders: [Order]
+    inventories: [Inventory]
+    loyaltyTransactions: [LoyaltyTransaction]
+}
+
+# -------------------- Mutations --------------------
+type Mutation {
+    createCustomer(name: String!, email: String!, phone: String!): Customer
+    createProduct(name: String!, category: String!, size: String!, price: Float!, cost: Float!, description: String!): Product
+    createOrder(customerId: ID!, items: [OrderItemInput]!): Order
+    createInventory(productId: ID!, stockBefore: Int!, sold: Int!, notes: String!): Inventory
+    addLoyalty(customerId: ID!, changeAmount: Int!, type: String!): LoyaltyTransaction
+}
+
+# -------------------- Types --------------------
+type Customer {
+    id: ID
+    name: String
+    email: String
+    phone: String
+    loyaltyPoints: Int
+    orders: [Order]
+    loyaltyTransactions: [LoyaltyTransaction]
+}
+
+type Product {
+    id: ID
+    name: String
+    category: String
+    size: String
+    price: Float
+    cost: Float
+    description: String
+}
+
+type Order {
+    id: ID
+    customer: Customer
+    orderDate: String
+    subtotal: Float
+    tax: Float
+    total: Float
+    items: [OrderItem]
+}
+
+type OrderItem {
+    id: ID
+    product: Product
+    quantity: Int
+    priceAtOrder: Float
+}
+
+type Inventory {
+    id: ID
+    product: Product
+    date: String
+    stockBefore: Int
+    sold: Int
+    stockAfter: Int
+    notes: String
+}
+
+type LoyaltyTransaction {
+    id: ID
+    customer: Customer
+    changeAmount: Int
+    type: String
+    timestamp: String
+}
+
+# -------------------- Input Types --------------------
+input OrderItemInput {
+    productId: ID!
+    quantity: Int!
+}

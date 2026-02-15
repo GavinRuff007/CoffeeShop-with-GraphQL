@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="
+        http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.20.xsd">
+
+
+    <!-- ================= PRODUCT ================= -->
+
+    <changeSet id="1-product-oracle" author="parsa" dbms="oracle">
+
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="PRODUCT"/>
+            </not>
+        </preConditions>
+
+        <createTable tableName="PRODUCT">
+            <column name="ID" type="NUMBER(19,0)" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="CATEGORY" type="VARCHAR2(255 CHAR)"/>
+            <column name="COST" type="NUMBER(19,4)"/>
+            <column name="DESCRIPTION" type="VARCHAR2(255 CHAR)"/>
+            <column name="NAME" type="VARCHAR2(255 CHAR)"/>
+            <column name="PRICE" type="NUMBER(19,4)"/>
+            <column name="SIZE" type="VARCHAR2(255 CHAR)"/>
+        </createTable>
+    </changeSet>
+
+    <!-- ================= CUSTOMER ================= -->
+
+    <changeSet id="2-customer-oracle" author="parsa" dbms="oracle">
+
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="CUSTOMER"/>
+            </not>
+        </preConditions>
+
+        <createTable tableName="CUSTOMER">
+            <column name="ID" type="NUMBER(19,0)" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="EMAIL" type="VARCHAR2(255 CHAR)"/>
+            <column name="LOYALTY_POINTS" type="NUMBER(10,0)"/>
+            <column name="NAME" type="VARCHAR2(255 CHAR)"/>
+            <column name="PHONE" type="VARCHAR2(255 CHAR)"/>
+        </createTable>
+    </changeSet>
+
+    <!-- ================= ORDERS ================= -->
+
+    <changeSet id="3-orders-oracle" author="parsa" dbms="oracle">
+
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="ORDERS"/>
+            </not>
+        </preConditions>
+
+        <createTable tableName="ORDERS">
+            <column name="ID" type="NUMBER(19,0)" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="ORDER_DATE" type="TIMESTAMP"/>
+            <column name="SUBTOTAL" type="NUMBER(19,4)"/>
+            <column name="TAX" type="NUMBER(19,4)"/>
+            <column name="TOTAL" type="NUMBER(19,4)"/>
+            <column name="CUSTOMER_ID" type="NUMBER(19,0)"/>
+        </createTable>
+
+        <addForeignKeyConstraint
+                baseTableName="ORDERS"
+                baseColumnNames="CUSTOMER_ID"
+                referencedTableName="CUSTOMER"
+                referencedColumnNames="ID"
+                constraintName="FK_ORDERS_CUSTOMER"/>
+    </changeSet>
+
+    <!-- ================= ORDER_ITEM ================= -->
+
+    <changeSet id="4-order-item-oracle" author="parsa" dbms="oracle">
+
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="ORDER_ITEM"/>
+            </not>
+        </preConditions>
+
+        <createTable tableName="ORDER_ITEM">
+            <column name="ID" type="NUMBER(19,0)" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="PRICE_AT_ORDER" type="NUMBER(19,4)"/>
+            <column name="QUANTITY" type="NUMBER(10,0)"/>
+            <column name="ORDER_ID" type="NUMBER(19,0)"/>
+            <column name="PRODUCT_ID" type="NUMBER(19,0)"/>
+        </createTable>
+
+        <addForeignKeyConstraint
+                baseTableName="ORDER_ITEM"
+                baseColumnNames="ORDER_ID"
+                referencedTableName="ORDERS"
+                referencedColumnNames="ID"
+                constraintName="FK_ORDERITEM_ORDER"/>
+
+        <addForeignKeyConstraint
+                baseTableName="ORDER_ITEM"
+                baseColumnNames="PRODUCT_ID"
+                referencedTableName="PRODUCT"
+                referencedColumnNames="ID"
+                constraintName="FK_ORDERITEM_PRODUCT"/>
+    </changeSet>
+
+    <!-- ================= INVENTORY ================= -->
+
+    <changeSet id="5-inventory-oracle" author="parsa" dbms="oracle">
+
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="INVENTORY"/>
+            </not>
+        </preConditions>
+
+        <createTable tableName="INVENTORY">
+            <column name="ID" type="NUMBER(19,0)" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="DATE" type="DATE"/>
+            <column name="NOTES" type="VARCHAR2(255 CHAR)"/>
+            <column name="SOLD" type="NUMBER(10,0)"/>
+            <column name="STOCK_AFTER" type="NUMBER(10,0)"/>
+            <column name="STOCK_BEFORE" type="NUMBER(10,0)"/>
+            <column name="PRODUCT_ID" type="NUMBER(19,0)"/>
+        </createTable>
+
+        <addForeignKeyConstraint
+                baseTableName="INVENTORY"
+                baseColumnNames="PRODUCT_ID"
+                referencedTableName="PRODUCT"
+                referencedColumnNames="ID"
+                constraintName="FK_INVENTORY_PRODUCT"/>
+    </changeSet>
+
+    <!-- ================= LOYALTY_TRANSACTION ================= -->
+
+    <changeSet id="6-loyalty-oracle" author="parsa" dbms="oracle">
+
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="LOYALTY_TRANSACTION"/>
+            </not>
+        </preConditions>
+
+        <createTable tableName="LOYALTY_TRANSACTION">
+            <column name="ID" type="NUMBER(19,0)" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="CHANGE_AMOUNT" type="NUMBER(10,0)"/>
+            <column name="TIMESTAMP" type="TIMESTAMP"/>
+            <column name="TYPE" type="VARCHAR2(255 CHAR)"/>
+            <column name="CUSTOMER_ID" type="NUMBER(19,0)"/>
+        </createTable>
+
+        <addForeignKeyConstraint
+                baseTableName="LOYALTY_TRANSACTION"
+                baseColumnNames="CUSTOMER_ID"
+                referencedTableName="CUSTOMER"
+                referencedColumnNames="ID"
+                constraintName="FK_LOYALTY_CUSTOMER"/>
+    </changeSet>
+
+</databaseChangeLog>

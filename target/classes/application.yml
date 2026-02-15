@@ -1,0 +1,16 @@
+spring:
+  profiles:
+    active: prod
+
+  liquibase:
+    change-log: classpath:db/changelog/db.changelog-master.xml
+    enabled: true
+
+  graphql:
+    path: /graphql
+    graphiql:
+      enabled: true
+
+  jpa:
+    hibernate:
+      ddl-auto: validate
