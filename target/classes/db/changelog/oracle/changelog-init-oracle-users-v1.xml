@@ -33,7 +33,6 @@
                 <constraints nullable="false"/>
             </column>
 
-            <!-- Oracle BOOLEAN ندارد -->
             <column name="ENABLED" type="NUMBER(1)" defaultValueNumeric="1">
                 <constraints nullable="false"/>
             </column>
