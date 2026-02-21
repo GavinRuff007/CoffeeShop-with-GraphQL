@@ -2,6 +2,7 @@ package org.example.coffeestore.security.controller;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.example.coffeestore.security.dto.LoginResponse;
 import org.example.coffeestore.security.entity.AppUser;
 import org.example.coffeestore.security.service.JwtService;
 import org.example.coffeestore.security.dto.LoginRequest;
@@ -10,6 +11,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.time.LocalDateTime;
 
 @RestController
 @RequestMapping("/auth")
@@ -20,7 +23,9 @@ public class AuthController {
     private final JwtService jwtService;
 
     @PostMapping("/login")
-    public String login(@RequestBody @Valid LoginRequest request) {
+    public LoginResponse login(@RequestBody @Valid LoginRequest request) {
+
+        LoginResponse loginResponse = new LoginResponse();
 
         AppUser user = userRepo.findByUsername(request.getUsername())
                 .orElseThrow(() -> new RuntimeException("User not found"));
@@ -28,7 +33,10 @@ public class AuthController {
         if (!user.getPassword().equals(request.getPassword())) {
             throw new RuntimeException("Invalid password");
         }
+        loginResponse.setToken(jwtService.generateToken(user.getUsername(), user.getRole()));
+        loginResponse.setRole(user.getRole());
+        loginResponse.setTime(LocalDateTime.now());
 
-        return jwtService.generateToken(user.getUsername(), user.getRole());
+        return loginResponse;
     }
 }

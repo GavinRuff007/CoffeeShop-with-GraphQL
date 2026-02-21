@@ -1,27 +1,27 @@
-package org.example.coffeestore.entity;
+package org.example.coffeestore.domain.model;
 
 import jakarta.persistence.*;
-import lombok.Data;
 import lombok.*;
 
-import java.math.BigDecimal;
+import java.time.LocalDate;
 
 @Entity
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class OrderItem {
+public class Inventory {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne
-    private Order order;
+    private LocalDate date;
 
     @ManyToOne
     private Product product;
 
-    private Integer quantity;
-    private BigDecimal priceAtOrder;
+    private Integer stockBefore;
+    private Integer sold;
+    private Integer stockAfter;
+    private String notes;
 }

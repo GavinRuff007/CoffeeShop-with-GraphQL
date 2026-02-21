@@ -35,4 +35,14 @@
 
     </changeSet>
 
+    <changeSet id="002-insert-admin-user" author="gavin">
+
+        <insert tableName="USERS">
+            <column name="username" value="admin"/>
+            <column name="password" value="1234"/>
+            <column name="role" value="ADMIN"/>
+        </insert>
+
+    </changeSet>
+
 </databaseChangeLog>

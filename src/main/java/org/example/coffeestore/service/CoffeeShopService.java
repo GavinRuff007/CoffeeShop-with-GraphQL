@@ -1,8 +1,8 @@
 package org.example.coffeestore.service;
 
 import lombok.RequiredArgsConstructor;
+import org.example.coffeestore.domain.model.*;
 import org.example.coffeestore.dto.OrderItemInput;
-import org.example.coffeestore.entity.*;
 import org.example.coffeestore.repository.*;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

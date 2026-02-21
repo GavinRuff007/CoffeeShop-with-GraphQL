@@ -1,10 +1,11 @@
 package org.example.coffeestore.controller;
 
 import lombok.RequiredArgsConstructor;
+import org.example.coffeestore.domain.model.*;
 import org.example.coffeestore.dto.OrderItemInput;
-import org.example.coffeestore.entity.*;
 import org.example.coffeestore.service.CoffeeShopService;
 import org.springframework.graphql.data.method.annotation.*;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import java.math.BigDecimal;
 import java.util.List;
@@ -18,6 +19,7 @@ public class CoffeeShopGraphQLController {
 
     // --------------------- Queries ---------------------
 
+    @PreAuthorize("hasRole('ADMIN')")
     @QueryMapping
     public List<Customer> customers() {
         return service.getCustomers();

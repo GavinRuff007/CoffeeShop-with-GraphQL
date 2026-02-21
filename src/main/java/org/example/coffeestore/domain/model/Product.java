@@ -1,4 +1,4 @@
-package org.example.coffeestore.entity;
+package org.example.coffeestore.domain.model;
 
 import jakarta.persistence.*;
 import lombok.*;
