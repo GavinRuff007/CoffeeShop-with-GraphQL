@@ -61,6 +61,9 @@ build/
 *.tmp
 .idea/
 
+src/.DS_Store
+.DS_Store
+src/main/.DS_Store
 
 
 src/main/resources/application.properties
